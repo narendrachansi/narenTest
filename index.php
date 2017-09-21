@@ -1,8 +1,8 @@
 <?php
-
+// base path
 define('BASE_PATH',__DIR__.DIRECTORY_SEPARATOR);
 
-
+// read line from console
 function readline( $prompt = '' )
 {
     echo $prompt;
@@ -20,7 +20,6 @@ function r($data){
 
 // input file name
 $fridgeDataFileName = trim(readline("Enter Friddge Data file name :"));
-
 $fridgeDataFileName = BASE_PATH.$fridgeDataFileName;
 
 
@@ -31,7 +30,7 @@ if(file_exists($fridgeDataFileName)) {
 	exit("$fridgeDataFileName file not found!");
 }
 
-
+// read ingred data from json file
 $recipeFileName = trim(readline("Enter Recipe Data file name :"));
 $recipeFileName = BASE_PATH.$recipeFileName;
 
@@ -46,20 +45,13 @@ if(file_exists($recipeFileName)) {
 
 
 
-// sort by used by date asc
-
-
-
+// check for expired item based on usedby date
 foreach($frideData as $key=>$item){
 	
-	
-	
 	// scan and skip expired items
-	
-
 	$datePart = array_reverse(explode('/', $item[3]));
-	
 	$useByDate = date('Y-m-d', strtotime(implode('-', $datePart)));
+	
 	if($useByDate<date('Y-m-d')) {
 		// skip unusable item
 		
@@ -70,9 +62,8 @@ foreach($frideData as $key=>$item){
 		continue;
 	}
 	
-	
+	// store formatted date in array for sorting..
 	$frideData[$key][3] = $useByDate;
-	
 	
 }
 
